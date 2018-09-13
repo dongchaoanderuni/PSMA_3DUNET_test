@@ -64,8 +64,21 @@ def isensee2017_model(input_shape=(4, 128, 128, 128), n_base_filters=16, depth=4
         level_output_layers.append(context_output_layer)
         current_layer = context_output_layer
 
+
+
     segmentation_layers = list()
-    for level_number in range(depth - 2, -1, -1):
+
+    current_layer = level_output_layers[-2]
+    dense_current_layer = dense_block_module(current_layer, n_filters = n_level_filters * 2)
+    concatenation_layer = concatenate(current_layer,dense_current_layer, axis = 1)
+    localization_output = create_localization_module(concatenation_layer, 16)
+    current_layer = localization_output
+    segmentation_layers.insert(0, create_convolution_block(current_layer, n_filters=n_labels, kernel=(1,1,1)))
+
+
+
+
+    for level_number in range(depth - 3, -1, -1):
         up_sampling = create_up_sampling_module(current_layer, level_filters[level_number])
         concatenation_layer = concatenate([level_output_layers[level_number], up_sampling], axis=1)
         # Why ?
