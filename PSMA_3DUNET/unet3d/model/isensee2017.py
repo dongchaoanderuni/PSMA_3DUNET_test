@@ -61,6 +61,7 @@ def isensee2017_model(input_shape=(4, 128, 128, 128), n_base_filters=16, depth=4
         # summation_layer = Add()([in_conv, context_output_layer])
          #level_output_layers.append(summation_layer)
         # current_layer = summation_layer
+        level_output_layers.append(context_output_layer)
         current_layer = context_output_layer
 
     segmentation_layers = list()
