@@ -62,6 +62,7 @@ def isensee2017_model(input_shape=(4, 128, 128, 128), n_base_filters=16, depth=4
          #level_output_layers.append(summation_layer)
         # current_layer = summation_layer
         level_output_layers.append(context_output_layer)
+        print("n_level_filters = ", n_level_filters, "size = current_layer", context_output_layer.shape())
         current_layer = context_output_layer
 
 
