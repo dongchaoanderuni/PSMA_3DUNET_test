@@ -109,10 +109,12 @@ def isensee2017_model(input_shape=(4, 128, 128, 128), n_base_filters=16, depth=4
 
 def dense_block_module(input_layer,n_filters,dropout_rate = 0.3, data_format = "channels_first"):
     dense_block_1 = create_convolution_block(input_layer, n_filters, batch_normalization= True)
+    print("dense_block_1 = ", dense_block_1.get_shape().as_list())
     dense_block_2 = create_convolution_block(dense_block_1,n_filters, batch_normalization=True)
     concatenation_layer = concatenate([dense_block_1,dense_block_2],axis = 1)
     dense_block_3 = create_localization_module(concatenation_layer, n_filters)
     dropout = SpatialDropout3D(rate = dropout_rate, data_format = data_format)(dense_block_3)
+    print("dropout = ", dropout.get_shape().as_list())
     return  dense_block_3
 
 def create_localization_module(input_layer, n_filters):
